@@ -32,6 +32,3 @@ Aplikasi ini dijalankan melalui menu teks:
 * Menerapkan algoritma pengurutan (`Selection Sort`, `Insertion Sort`) untuk data bahan.
 * Mengimplementasikan algoritma pencarian (`Sequential Search`, `Binary Search`) untuk data bahan.
 * Menyajikan laporan stok yang ringkas dan informatif.
-
-## Tautan GitHub Proyek
-[Masukkan tautan ke repositori GitHub Anda di sini, contoh: https://github.com/nicotainee/review-1-tubes-alpro]
