@@ -70,6 +70,7 @@ Program ini menggunakan beberapa struktur data utama:
     * **Pilihan 2: Mengubah bahan makanan / minuman**
         * Masukkan `ID bahan yang ingin diubah:`.
         * Jika ID ditemukan, Anda akan diminta untuk memasukkan semua data baru untuk item tersebut (ID baru, kategori baru, nama baru, jumlah baru, tanggal kadaluwarsa baru).
+        * Jika ID tidak ditemukan, maka akan menampilkan ("ID tidak ditemukan").
 
     * **Pilihan 3: Menampilkan persediaan bahan makanan / minuman**
         * Program akan menampilkan dua daftar:
@@ -85,7 +86,8 @@ Program ini menggunakan beberapa struktur data utama:
             ```
         * Pilih `1` untuk mencari berdasarkan nama (masukkan nama bahan). *Catatan: Untuk hasil optimal pencarian nama (binary search), idealnya daftar sudah terurut berdasarkan nama, meskipun program saat ini tidak mengurutkan otomatis sebelum pencarian nama.*
         * Pilih `2` untuk mencari berdasarkan ID (masukkan ID bahan).
-        * Jika ditemukan, program akan mengonfirmasi dan kemudian menampilkan seluruh daftar makanan saat ini.
+        * Jika ditemukan, program akan mengonfirmasi dan kemudian menampilkan seluruh daftar makanan saat ini
+        * Jika nama tidak sesuai dengan data, maka akan menampilkan ("Data tidak ditemukan").
 
     * **Pilihan 5: Menampilkan kadaluarsa bahan dalam 30 hari ke depan**
         * Masukkan `tanggal hari ini (dd mm yyyy):`.
