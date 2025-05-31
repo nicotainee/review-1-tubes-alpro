@@ -25,61 +25,100 @@ type arrMakanan [NMAX] Makanan
 type arrTanggal [NMAX] tanggal
 type arrbhnHabisPakai [NMAX] bhnHabisPakai
 func main() {
-	var pilihan, n ,m int
-	var selesai bool
+	var pilihan, n ,m,tarSeq int
+	var selesai,cek bool
+	var tarbin string
 	var A arrMakanan
 	var B arrTanggal
 	var C arrbhnHabisPakai
 	selesai = true
-
-	for selesai {
-		fmt.Println("1. Input bahan makanan / minuman")
-		fmt.Println("2. Menambah bahan makanan / minuman")
-		fmt.Println("3. Mengubah bahan makanan / minuman")
-		fmt.Println("4. Menampilkan persediaan bahan makanan / minuman")
-		fmt.Println("5. Mencari bahan makanan tertentu")
-		fmt.Println("6. Kadaluarsa makanan dalam 30 hari ke depan")
-		fmt.Println("7. Mengurutkan bahan makanan / minuman")
-		fmt.Println("8. Masukkan bahan yang habis dipakai")
+	cek = false
+	
+		fmt.Println("==========================================================")
+		fmt.Println("Selamat datang di MyFoodList!")
+		fmt.Println("Di sini anda dapat mencatat persediaan bahan makanan anda.")
+		fmt.Println("Apakah anda ingin mencatat persediaan anda? (1 = Ya, 0 = Tidak)")
+		fmt.Print("Masukkan pilihan anda: ")
+		fmt.Scan(&pilihan)
+		fmt.Println("==========================================================")
+		if pilihan == 1 {
+			// Memanngil fungsi untuk input data
+			fmt.Println("1. Silahkan input bahan makanan / minuman")
+			bacaData(&A, &n)
+			cek = true
+		}else{
+			fmt.Print("Terimakasih telah berkunjung ^^")
+		}
+		// Jika sudah inputdata maka menu akan ditampilkan
+		for selesai {
+			if cek == true {
+		fmt.Println("==========================================================")
+		fmt.Println("|                          MENU                          |")
+		fmt.Println("==========================================================")
+		fmt.Println("1. Menambah bahan makanan / minuman")
+		fmt.Println("2. Mengubah bahan makanan / minuman")
+		fmt.Println("3. Menampilkan persediaan bahan makanan / minuman")
+		fmt.Println("4. Mencari bahan makanan tertentu")
+		fmt.Println("5. Menampilkan kadaluarsa bahan dalam 30 hari ke depan")
+		fmt.Println("6. Mengurutkan bahan makanan / minuman")
+		fmt.Println("7. Masukkan bahan yang habis dipakai")
 		fmt.Println("0. Keluar")
 		fmt.Print("Apa yang ingin anda lakukan: ")
 		fmt.Scan(&pilihan)
-
-		if pilihan == 1 {
-			bacaData(&A, &n)
-		} else if pilihan == 2 {
-			fmt.Println("1.Menambhkan jumlah bahan : ")
-			fmt.Println("2.Menambahkan bahan")
-			fmt.Scan(&pilihan)
+		fmt.Println("==========================================================")
+		} 
+			if pilihan == 1 {
+				// Menambah stok bahan makanan
+				fmt.Println("1.Menambhkan jumlah bahan  ")
+				fmt.Println("2.Menambahkan bahan")
+				fmt.Println("Anda ingin menambahkan berdasarkan :")
+				fmt.Scan(&pilihan)
 			if pilihan == 1{
-			tambahJumlah(&A,&n)
+				tambahJumlah(&A,&n)
 			}else if pilihan == 2{
-			menambahMakanan(&A, &n)
+				menambahMakanan(&A, &n)
 			}else {
 				fmt.Print("Input tidak sesuai")
 			}
+		} else if pilihan == 2 {
+			// Mengubah data bahan makanan
+				ubahData(&A, n)
 		} else if pilihan == 3 {
-			ubahData(&A, n)
-		} else if pilihan == 4 {
+			// Menampilkan stok bahan makanan dan bahan makanan habis pakai
 			fmt.Println("Daftar bahan makanan yang tersedia: ")
 			tampilkanMakanan(A, n)
 			fmt.Println("Daftar bahan makanan yang sudah digunakan: ")
 			tampilkanMakananHbsPakai(C,m)
-		} else if pilihan == 5 {
+		} else if pilihan == 4 {
+			// mencari bahan makanan tertentu berdasarkan nama atau Id
 			fmt.Println("1. Berdasarkan nama")
 			fmt.Println("2. Berdasarkan ID")
 			fmt.Print("Pilihan pencarian: ")
 			fmt.Scan(&pilihan)
 			if pilihan == 1 {
-				cariBahan(&A, n)
+				fmt.Print("Masukkan nama bahan yang mau dicari :")
+				fmt.Scan(&tarbin)
+
+				if binarySearchNama(&A,n,tarbin) != -1 {
+					tampilkanMakanan(A, n)
+				} else {
+					fmt.Println("Data tidak ditemukan")
+		}
 			} else if pilihan == 2 {
-				cariId(&A, n)
-			} else {
-				fmt.Println("Input tidak sesuai")
-			}
-		} else if pilihan == 6 {
+				fmt.Print("Masukkan ID bahan: ")
+				fmt.Scan(&tarSeq)
+				
+				if cariId(&A, n,tarSeq) != -1 {
+					tampilkanMakanan(A, n)
+				} else {
+					fmt.Println("Data tidak ditemukan")
+				
+			} 
+		} else if pilihan == 5 {
+			// Menampilkan kadarluarsa bahan selama 30 hari kedepan
 			kadaluarsa(&B, &A, n)
-		} else if pilihan == 7 {
+		} else if pilihan == 6 {
+			// Mengurutkan bahan makanan berdasarkan tanggal kadarluarsa dan jumlah stok
 			fmt.Println("1. Tanggal kadaluarsa")
 			fmt.Println("2. Jumlah stok bahan")
 			fmt.Print("Pilihan pengurutan: ")
@@ -95,33 +134,39 @@ func main() {
 			} else {
 				fmt.Println("Input tidak sesuai")
 			}
-		}else if pilihan == 8{
+		}else if pilihan == 7{
+			//Mencatat bahan makanan yang sudah digunakan
 			hapusMakananDanSimpan(&A,&C,&n,&m)
 		}else if pilihan == 0 {
+			// Mengakhiri program
 			selesai = false
 			fmt.Println("Program Selesai  : TERIMA KASIH  ")
 		} else {
 			fmt.Println("Input tidak sesuai")
 		}
 		fmt.Println()
-	}}
+	}}}
 
 
-
+// Fungsi untuk input data awal bahan makanan
+//I.S. (initial atate): masukkan dr procedurenya apa
+//F.S. (final state): keluaran dari procedurenya apa
 func bacaData(A *arrMakanan, n *int) {
-	var id,i,jml int
-	var validId,validJml bool 
+	var id,i,jml,no,bulan int
+	var validId,validJml,validTgl bool 
 	fmt.Print("Masukkan jumlah data yang ingin anda masukkan: ")
 	fmt.Scan(n)
 	
 	for i = 0; i < *n; i++ {
 	validId = false
 	validJml = false
-		fmt.Println("============================================")
+	validTgl= false
+		fmt.Println("==========================================================")
 		fmt.Print("Masukkan ID makanan / minuman: ")
 		fmt.Scan(&id)
+		// Memvalidasi Id harus diantara 100 dan 999
 		for  !validId {
-			if id >= 100 && id <= 999 {
+			if id >= 100 && id <= 999 { 
        		 A[i].id = id
 			 validId = true
     		} else {
@@ -137,8 +182,9 @@ func bacaData(A *arrMakanan, n *int) {
 
 		fmt.Print("Masukkan jumlah bahan: ")
         fmt.Scan(&jml)
+		// Memvalidasi jumlah harus diatas 0
 		for  !validJml {
-			if jml >= 0 {
+			if jml >= 1  {
        		 A[i].jumlah = jml
 			 validJml = true
     		} else {
@@ -148,22 +194,40 @@ func bacaData(A *arrMakanan, n *int) {
 		}}
 
 		fmt.Print("Masukkan tanggal kadaluarsa baru (dd mm yyyy): ")
-			fmt.Scan(&A[i].kadarluarsa.no, &A[i].kadarluarsa.bulan, &A[i].kadarluarsa.tahun)
-		fmt.Println("============================================")
+		fmt.Scan(&no, &bulan, &A[i].kadarluarsa.tahun)
+		// Memvalidasi tanggal tidak boleh lebih dari 31 dan bulan tidak lebih dari 12
+			for !validTgl {
+				if no <= 31 && bulan <= 12 {
+					A[i].kadarluarsa.no = no
+					A[i].kadarluarsa.bulan =bulan
+					validTgl=true
+				}else {
+					fmt.Println("Input tidak sesuai")
+					fmt.Print("Masukkan tanggal kadaluarsa baru (dd mm yyyy): ")
+					fmt.Scan(&no, &bulan, &A[i].kadarluarsa.tahun)
+				}
+			}
+		fmt.Println("==========================================================")
 	}
 }
+// fungsi menambah bahan makanan baru ke data yang sudah ada
+// I.S.: Array bahan makanan (A) sudah berisi n data, n <= NMAX
+// F.S.: Data bahan baru ditambahkan ke array A, n bertambah sesuai jumlah bahan baru yang valid
 
 func menambahMakanan(A *arrMakanan, n *int) {
-    var tambah,i,id,jml int
-	var validId, validJml bool
+    var tambah,i,id,jml,no,bulan int
+	var validId, validJml,validTgl bool
     fmt.Print("Mau menambahkan berapa bahan? ")
     fmt.Scan(&tambah)
+	
+	for i = 0; i < tambah && *n < NMAX; i++ {
 	validId = false
 	validJml = false
-	for i = 0; i < tambah && *n < NMAX; i++ {
-		fmt.Println("============================================")
+	validTgl = false
+		fmt.Println("==========================================================")
 		fmt.Print("Masukkan ID makanan / minuman: ")
 		fmt.Scan(&id)
+		// Memvalidasi Id harus diantara 100 dan 999
 		for  !validId {
 			if id >= 100 && id <= 999 {
        		 (*A)[*n].id = id
@@ -179,8 +243,9 @@ func menambahMakanan(A *arrMakanan, n *int) {
 		fmt.Scan(&A[*n].nama)
 		fmt.Print("Masukkan jumlah bahan: ")
         fmt.Scan(&jml)
+		// Memvalidasi jumlah harus lebih dari 0
 		for  !validJml {
-			if jml >= 0 {
+			if jml >= 1 {
        		 (*A)[*n].jumlah = jml
 			 validJml = true
     		} else {
@@ -190,47 +255,67 @@ func menambahMakanan(A *arrMakanan, n *int) {
 		}}
 
 		fmt.Print("Masukkan tanggal kadaluarsa baru (dd mm yyyy): ")
-			fmt.Scan(&A[*n].kadarluarsa.no, &A[*n].kadarluarsa.bulan, &A[*n].kadarluarsa.tahun)
-		fmt.Println("============================================")
+		fmt.Scan(&no, &bulan, &A[*n].kadarluarsa.tahun)
+		// Memvalidasi tanggal tidak boleh lebih dari 31 dan bulan tidak lebih dari 12
+			for !validTgl {
+				if no <= 31 && bulan <= 12 {
+					A[*n].kadarluarsa.no = no
+					A[*n].kadarluarsa.bulan =bulan
+					validTgl=true
+				}else {
+					fmt.Println("Input tidak sesuai")
+					fmt.Print("Masukkan tanggal kadaluarsa baru (dd mm yyyy): ")
+					fmt.Scan(&no, &bulan, &A[*n].kadarluarsa.tahun)
+				}
+			}
+		fmt.Println("==========================================================")
         *n = *n +1
     }
 }
+// Fungsi untuk menambahkan jumlah stok bahan makanan berdasarkan ID
+// I.S.: Array bahan makanan (A) sudah berisi n data, user memasukkan ID bahan yang ada
+// F.S.: Jumlah bahan pada ID yang sesuai bertambah sesuai input user, atau pesan error jika ID tidak ditemukan
 func tambahJumlah(A *arrMakanan, n *int){
 	var i,input,id int
 	fmt.Print("Masukkan Id:")
 	fmt.Scan(&id)
 	for i = 0 ; i < *n ; i++{
 		if A[i].id == id {
-	fmt.Print("Masukkan jumlah bahan yang ingin ditambahkan :")
-	fmt.Scan(&input)
-	A[i].jumlah = A[i].jumlah + input
-	fmt.Print("Data berhasil ditambahkan")
+			fmt.Print("Masukkan jumlah bahan yang ingin ditambahkan :")
+			fmt.Scan(&input)
+			A[i].jumlah = A[i].jumlah + input
+			fmt.Print("Data berhasil ditambahkan")
 		}else {
-			fmt.Print("Data tidak ditrmukan")
+			fmt.Print("Data tidak ditemukan")
 		}
 	}
 }
+// Fungsi mengubah data bahan makanan berdasarkan ID
+// I.S.: Array bahan makanan (A) berisi n data, user memasukkan ID bahan yang ingin diubah
+// F.S.: Data bahan dengan ID yang sesuai diubah sesuai input user, atau pesan error jika ID tidak ditemukan
 func ubahData(A *arrMakanan, n int) {
-	var idCari,id,i,jml int
-	var found,validId,validJml bool
-	validId=false
-	validJml=false
+	var idCari,id,i,jml,no,bulan int
+	var found,validId,validJml,validTgl bool
+	
 	fmt.Print("Masukkan ID bahan yang ingin diubah: ")
 	fmt.Scan(&idCari)
 
 	found = false
 	for i = 0; i < n; i++ {
+	validId=false
+	validJml=false
+	validTgl=false
 		if (*A)[i].id == idCari {
 			found = true
 			fmt.Println("Data ditemukan. Silakan masukkan data baru.")
 			fmt.Print("Masukkan ID baru: ")
 			fmt.Scan(&id)
 			for  !validId {
-			if id >= 100 && id <= 999 {
-       		 (*A)[i].id = id
-			 validId = true
+				if id >= 100 && id <= 999 {
+       				 (*A)[i].id = id
+					 validId = true
     		} else {
-       		 fmt.Println("Data Tidak Sesuai (ID harus antara 100 - 999)")
+       			fmt.Println("Data Tidak Sesuai (ID harus antara 100 - 999)")
 				fmt.Print("Masukkan ID makanan / minuman   : ")
 				fmt.Scan(&id)
 		}}
@@ -241,16 +326,30 @@ func ubahData(A *arrMakanan, n int) {
 			fmt.Print("Masukkan jumlah bahan  : ")
 			fmt.Scan(&jml)
 			for  !validJml {
-			if jml >= 0 {
-       		 (*A)[i].jumlah = jml
-			 validJml = true
-    		} else {
-       		 fmt.Print("Data Tidak Sesuai (jumlah harus lebih dari 0)")
-			 fmt.Print("Masukkan jumlah bahan                  : ")
-			 fmt.Scan(&jml)
+				if jml >= 1 {
+       				 (*A)[i].jumlah = jml
+					 validJml = true
+    			} else {
+       		 		fmt.Print("Data Tidak Sesuai (jumlah harus lebih dari 0)")
+			 		fmt.Print("Masukkan jumlah bahan                  : ")
+					 fmt.Scan(&jml)
 		}}
 			fmt.Print("Masukkan tanggal kadaluarsa (dd mm yyyy): ")
-			fmt.Scan(&A[i].kadarluarsa.no, &A[i].kadarluarsa.bulan, &A[i].kadarluarsa.tahun)
+			
+			fmt.Scan(&no, &bulan, &A[i].kadarluarsa.tahun)
+			fmt.Print("Masukkan tanggal kadaluarsa baru (dd mm yyyy): ")
+		fmt.Scan(&no, &bulan, &A[i].kadarluarsa.tahun)
+			for !validTgl {
+				if  no <= 31  && bulan <= 12 {
+					A[i].kadarluarsa.no = no
+					A[i].kadarluarsa.bulan =bulan
+					validTgl=true
+				}else {
+					fmt.Println("Input tidak sesuai")
+					fmt.Print("Masukkan tanggal kadaluarsa baru (dd mm yyyy): ")
+					fmt.Scan(&no, &bulan, &A[i].kadarluarsa.tahun)
+				}
+			}
 		}
 	}
 
@@ -259,84 +358,62 @@ func ubahData(A *arrMakanan, n int) {
 	}
 }
 
-
+// fungsi untuk menampilkan daftar bahan makanan yang tersedia
+// I.S.: Array bahan makanan (A) berisi n data
+// F.S.: Menampilkan semua data bahan makanan dari array A ke layar
 func tampilkanMakanan(A arrMakanan, n int) {
     var i int
     for i = 0; i < n; i++ {
-        fmt.Println("============================================")
+        fmt.Println("==========================================================")
 		fmt.Println("ID :", A[i].id)
         fmt.Println("Kategori    :", A[i].kategori)
         fmt.Println("Nama        :", A[i].nama)
         fmt.Println("Jumlah      :", A[i].jumlah)
         fmt.Printf("Kadaluarsa  : %02d %02d %04d\n", A[i].kadarluarsa.no,  A[i].kadarluarsa.bulan, A[i].kadarluarsa.tahun)
-		fmt.Println("============================================")
+		fmt.Println("==========================================================")
 		fmt.Println()
     }
 }
+//  Fungsi binary search untuk mencari bahan berdasarkan nama
+// I.S.: Array bahan makanan (A) berisi n data yang sudah terurut berdasarkan nama, user memasukkan nama bahan yang dicari
+// F.S.: Menampilkan data bahan sesuai nama jika ditemukan, atau pesan error jika tidak ditemukan
 func binarySearchNama(A *arrMakanan, n int, target string) int {
-	var left,right,mid int
+	var left, right, mid,found int
+	found = -1 // -1 artinya tidak ditemukan
+
 	left = 0
 	right = n - 1
-	for left <= right {
+
+	for left <= right && found == -1 {
 		mid = (left + right) / 2
 		if A[mid].nama == target {
-			return mid
+			found = mid
 		} else if A[mid].nama < target {
 			left = mid + 1
 		} else {
 			right = mid - 1
 		}
 	}
+	return found
+}
+	
+
+// Fungsi Sequential Search untuk mencari bahan berdasarkan ID 
+//// I.S.: Array bahan makanan (A) berisi n data, user memasukkan ID bahan yang dicari
+// F.S.: Menampilkan data bahan sesuai ID jika ditemukan, atau pesan error jika tidak ditemukan
+func cariId(A *arrMakanan, n int, X int) int {
+	var i int
+	for i = 0; i < n; i++ {
+		if A[i].id == X {
+			return i 
+		}
+	}
 	return -1
 }
 
-
-func cariBahan(A *arrMakanan, n int){
-	var input string 
-	var ketemu, k int
-	fmt.Println("Masukkan Nama Bahan: ")
-	fmt.Scan(&input)
-	ketemu = -1
-	k = 0
-	for ketemu == -1 && k < n {
-		if A[k].nama == input {
-			ketemu = k
-		}
-		k++
-	}
-	if ketemu != -1{
-	fmt.Println("Nama :",A[ketemu].nama)
-	fmt.Println("Jumlah :",A[ketemu].jumlah)
-	fmt.Println("Kategori :",A[ketemu].kategori)
-	fmt.Println("Kadarluarsa :",A[ketemu].kadarluarsa.no,A[ketemu].kadarluarsa.bulan,A[ketemu].kadarluarsa.tahun)
-}else {
-	fmt.Println("Data Tidak Ditemukan")
-}
-}
-func cariId(A *arrMakanan, n int) {
-	var x, ketemu int
-	var found bool
-	fmt.Print("Masukkan ID bahan: ")
-	fmt.Scan(&x)
-	found = false
-	for i := 0; i < n; i++ {
-		if A[i].id == x {
-			ketemu = i
-			found = true
-			break
-		}
-	}
-	if found {
-		fmt.Println("Nama :", A[ketemu].nama)
-		fmt.Println("Jumlah :", A[ketemu].jumlah)
-		fmt.Println("Kategori :", A[ketemu].kategori)
-		fmt.Println("Kadarluarsa :", A[ketemu].kadarluarsa.no, A[ketemu].kadarluarsa.bulan, A[ketemu].kadarluarsa.tahun)
-	} else {
-		fmt.Println("ID tidak ditemukan.")
-	}
-}
-
-
+// Fungsi menampilkan bahan yang akan kadaluarsa dalam 30 hari ke depan
+// I.S.: Array bahan makanan (A) berisi n data dengan tanggal kadaluarsa, dan array tanggal B (tidak digunakan optimal)
+// F.S.: Menampilkan bahan yang akan kadaluarsa dalam 30 hari ke depan 
 func kadaluarsa(B *arrTanggal, A *arrMakanan, n int) {
 	var H, exp tanggal
 	var totH, totK ,i int
@@ -365,7 +442,9 @@ func kadaluarsa(B *arrTanggal, A *arrMakanan, n int) {
 }
 
 
-
+// Fungsi Insertion Sort untuk mengurutkan bahan berdasarkan tanggal kadaluarsa 
+// I.S.: Array bahan makanan (A) berisi n data dengan tanggal kadaluarsa tidak berurutan
+// F.S.: Array A terurutkan berdasarkan tanggal kadaluarsa dari yang paling dekat ke yang paling jauh
 func insertSortTanggal(A *arrMakanan, n int) {
 	var i, j int
 	var temp Makanan
@@ -379,7 +458,7 @@ func insertSortTanggal(A *arrMakanan, n int) {
 		(*A)[j+1] = temp
 	}
 }
-
+// Fungsi pembanding tanggal, mengembalikan -1 jika t1 < t2, 0 jika sama, 1 jika t1 > t2
 func lebihLama(t1, t2 tanggal) bool {
 	if t1.tahun > t2.tahun {
 		return true
@@ -393,7 +472,9 @@ func lebihLama(t1, t2 tanggal) bool {
 	return false
 }
 
-
+// Fungsi selection sort untuk mengurutkan bahan berdasarkan jumlah stok 
+// I.S.: Array bahan makanan (A) berisi n data dengan jumlah stok tidak berurutan
+// F.S.: Array A terurutkan berdasarkan jumlah stok dari yang terkecil ke terbesar
 func selectSortJumlah(A *arrMakanan, n int) {
 	var i, j, minIdx int
 	var temp Makanan
@@ -411,8 +492,11 @@ func selectSortJumlah(A *arrMakanan, n int) {
 		(*A)[minIdx] = temp
 	}
 }
+// Fungsi menghapus bahan yang sudah habis pakai dan menyimpannya ke list bahan habis pakai
+// I.S.: Array bahan makanan (A) berisi n data, array bahan habis pakai (C) berisi m data, user memasukkan ID bahan yang habis pakai
+// F.S.: Data bahan dengan ID yang sesuai dipindahkan ke array C dan dihapus dari array A, n berkurang 1, m bertambah 1, atau pesan error jika ID tidak ditemukan
 func hapusMakananDanSimpan(A *arrMakanan, B *arrbhnHabisPakai, n *int, m *int) {
-	var i,id,jumlah int
+	var i,j,id,jumlah int
 	var found bool 
 	found = false
 
@@ -425,7 +509,7 @@ func hapusMakananDanSimpan(A *arrMakanan, B *arrbhnHabisPakai, n *int, m *int) {
 			fmt.Print("Masukkn jumlah bahan yang sudah digunakan")
 			fmt.Scan(&jumlah)
 				
-
+			// Salin data bahan yang habis ke array C
 			(*B)[*m].idPakai = (*A)[i].id
 			(*B)[*m].namaPakai = (*A)[i].nama
 			(*B)[*m].jumlahPakai = jumlah
@@ -433,13 +517,15 @@ func hapusMakananDanSimpan(A *arrMakanan, B *arrbhnHabisPakai, n *int, m *int) {
 			(*B)[*m].kadarluarsaPakai = (*A)[i].kadarluarsa
 			*m++
 			if jumlah == (*A)[i].jumlah {
-				for j := i; j < *n-1; j++ {
+				for j = i; j < *n-1; j++ {
 				(*A)[j] = (*A)[j+1]
 				}
 			*n--
 			
 		}else if jumlah > (*A)[i].jumlah{
 			fmt.Print("Jumlah melebiihi stok yang ada")
+			fmt.Print("Masukkn jumlah bahan yang sudah digunakan")
+			fmt.Scan(&jumlah)
 		} else {
 			(*A)[i].jumlah  = (*A)[i].jumlah  -  jumlah
 		}
@@ -452,16 +538,19 @@ func hapusMakananDanSimpan(A *arrMakanan, B *arrbhnHabisPakai, n *int, m *int) {
 		fmt.Println("ID tidak ditemukan.")
 	}
 }
+// Fungsi menampilkan daftar bahan yang sudah habis pakai
+// I.S.: Array bahan habis pakai (C) berisi m data
+// F.S.: Menampilkan semua data bahan habis pakai dari array C ke layar
 func tampilkanMakananHbsPakai(A arrbhnHabisPakai, n int) {
     var i int
     for i = 0; i < n; i++ {
-		fmt.Println("============================================")
+		fmt.Println("==========================================================")
 		fmt.Println("ID 		 :", A[i].idPakai)
         fmt.Println("Kategori    :", A[i].kategoriPakai)
         fmt.Println("Nama        :", A[i].namaPakai)
         fmt.Println("Jumlah      :", A[i].jumlahPakai)
         fmt.Printf("Kadaluarsa  : %02d %02d %04d\n", A[i].kadarluarsaPakai.no,  A[i].kadarluarsaPakai.bulan, A[i].kadarluarsaPakai.tahun)
-		fmt.Println("============================================")
+		fmt.Println("==========================================================")
 		fmt.Println()
     }
 }
