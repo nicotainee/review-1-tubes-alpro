@@ -22,32 +22,7 @@ Program ini menggunakan beberapa struktur data utama:
 * `bhnHabisPakai`: Menyimpan detail item makanan yang telah habis dipakai.
 * Array (`arrMakanan`, `arrbhnHabisPakai`): Digunakan untuk menyimpan kumpulan data makanan dan bahan habis pakai.
 
-## Cara Menggunakan Program
-
-### 1. Persiapan
-
-* Pastikan Anda memiliki Go compiler terinstal di sistem Anda.
-* Simpan kode program di atas dalam sebuah file, misalnya `myfoodlist.go`.
-
-### 2. Kompilasi dan Menjalankan
-
-* Buka terminal atau command prompt.
-* Navigasi ke direktori tempat Anda menyimpan file `myfoodlist.go`.
-* Kompilasi program dengan perintah:
-    ```bash
-    go build myfoodlist.go
-    ```
-* Jalankan program yang telah dikompilasi:
-    * Untuk Linux/macOS:
-        ```bash
-        ./myfoodlist
-        ```
-    * Untuk Windows:
-        ```bash
-        myfoodlist.exe
-        ```
-
-### 3. Interaksi dengan Program
+### 1. Interaksi dengan Program
 
 1.  **Mulai Pencatatan:**
     * Saat program dimulai, Anda akan ditanya: `Apakah anda ingin mencatat persediaan anda? (1 = Ya, 0 = Tidak)`
